@@ -14,8 +14,12 @@ SENTIMENT_PROMPT = """
     """
 
 sentiment_agent = Agent(
-    name = "SentimentAnalyst",
-    instructions = SENTIMENT_PROMPT,
-    output_type = Summary,
-    model = MAIN_MODEL,
-    tools = [tavily_search])
+    name="SentimentAnalyst",
+    instructions=SENTIMENT_PROMPT,
+    output_type=Summary,
+    model=MAIN_MODEL,
+    tools=[tavily_search]
+)
+
+def as_tool():
+    return sentiment_agent
