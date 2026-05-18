@@ -20,6 +20,3 @@ sentiment_agent = Agent(
     model=MAIN_MODEL,
     tools=[tavily_search]
 )
-
-def as_tool():
-    return sentiment_agent
