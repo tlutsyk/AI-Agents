@@ -6,15 +6,26 @@ from langgraph.constants import END
 from langgraph_project.models.models import AgentState
 
 
-def should_continue(state: AgentState) -> Literal["action", "__end__"]:
-    """Determines the next step: continue with tools or end."""
-    print("DEBUG: Entering should_continue node")
-    last_message = state["messages"][-1]
+def should_continue(state):
+    messages = state["messages"]
 
-    # Check if the last message is an AIMessage with tool_calls
-    if isinstance(last_message, AIMessage) and hasattr(last_message, "tool_calls") and last_message.tool_calls:
-        print("DEBUG: Decision: continue (route to action)")
-        return "action"  # Route to the node named "action"
-    else:
-        print("DEBUG: Decision: end (route to END)")
-        return END  # Special value indicating the end of the graph
+    # limit infinite loops (IMPORTANT)
+    tool_calls_count = sum(
+        1 for m in messages
+        if getattr(m, "tool_calls", None)
+    )
+
+    if tool_calls_count > 5:
+        return END
+
+    last_message = messages[-1]
+
+    # stop on tool error
+    if "HTTP Error" in str(last_message.content):
+        return END
+
+    # continue only if model requests tool
+    if getattr(last_message, "tool_calls", None):
+        return "action"
+
+    return END

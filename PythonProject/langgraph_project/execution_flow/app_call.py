@@ -25,13 +25,13 @@ def app_call(app, messages):
     # Return the content of the last message and the final state
     return final_state["messages"][-1].content, final_state
 
-app = build_graph_one_tool(tools_list_single)
+#app = build_graph_one_tool(tools_list_single)
 
-messages = "What's the latest news on Ukraine in May 2026? Is it a good time to visit?"
-output, history = app_call(app, messages)
+#messages = "What's the latest news on Ukraine in May 2026? Is it a good time to visit?"
+#output, history = app_call(app, messages)
 
-print("\n==================== OUTPUT ====================")
-print(output)
+#print("\n==================== OUTPUT ====================")
+#print(output)
 
-print("\n==================== HISTORY ===================")
-print(history)
+#print("\n==================== HISTORY ===================")
+#print(history)
